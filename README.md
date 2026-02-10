@@ -95,3 +95,18 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 
+cd frontend-web
+npm install
+npm start
+cd desktop-app
+pip install -r requirements.txt
+python main.py
+
+3. Paste the above content  
+4. Save  
+5. Push to GitHub:
+
+```bash
+git add README.md
+git commit -m "Added professional project README"
+git push
