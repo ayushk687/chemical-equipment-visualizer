@@ -1,0 +1,56 @@
+from django.db import models
+
+class Equipment(models.Model):
+    name = models.CharField(max_length=100)
+    type = models.CharField(max_length=50)
+    flowrate = models.FloatField()
+    pressure = models.FloatField()
+    temperature = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+import pandas as pd
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.db.models import Avg, Max, Min
+from .models import Equipment
+from .serializers import EquipmentSerializer
+
+@api_view(['POST'])
+def upload_csv(request):
+    file = request.FILES['file']
+    df = pd.read_csv(file)
+
+    for _, row in df.iterrows():
+        Equipment.objects.create(
+            name=row['Equipment Name'],
+            type=row['Type'],
+            flowrate=row['Flowrate'],
+            pressure=row['Pressure'],
+            temperature=row['Temperature']
+        )
+
+    return Response({"message": "Upload successful"})
+
+
+@api_view(['GET'])
+def equipment_list(request):
+    data = Equipment.objects.all()
+    serializer = EquipmentSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def summary(request):
+    data = Equipment.objects.all()
+
+    result = {
+        "avg_flowrate": data.aggregate(Avg('flowrate'))['flowrate__avg'],
+        "max_pressure": data.aggregate(Max('pressure'))['pressure__max'],
+        "min_temperature": data.aggregate(Min('temperature'))['temperature__min'],
+    }
+
+    return Response(result)
+
