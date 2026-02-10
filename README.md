@@ -31,3 +31,67 @@ npm start
 cd desktop-app
 pip install -r requirements.txt
 python main.py
+
+       React Web App
+              │
+              │ REST API
+              ▼
+      Django Backend API
+              │
+              ▼
+          Database
+              ▲
+              │ REST API
+              │
+       PyQt5 Desktop App
+
+---
+
+## 🚀 Features
+
+- 📁 CSV Upload
+- 📊 Equipment Data Storage
+- 📈 Summary Statistics:
+  - Average Flowrate
+  - Maximum Pressure
+  - Minimum Temperature
+  - Total Equipment Count
+- 🌐 Web Dashboard
+- 🖥 Desktop Application
+- 🔄 RESTful API Architecture
+
+---
+
+## 🛠 Tech Stack
+
+### Backend
+- Django
+- Django REST Framework
+- Pandas
+- SQLite / PostgreSQL
+
+### Web Frontend
+- React.js
+- Axios
+- Recharts (optional for charts)
+
+### Desktop Application
+- PyQt5
+- Requests
+- Matplotlib (for future chart support)
+
+---
+
+## ⚙ Installation Guide
+
+---
+
+### 🔹 1️⃣ Backend Setup
+
+```bash
+cd backend
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+
