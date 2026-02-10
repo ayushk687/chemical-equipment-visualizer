@@ -1,0 +1,36 @@
+import requests
+
+BASE_URL = "http://127.0.0.1:8000/api/"
+
+def get_summary():
+    return requests.get(BASE_URL + "summary/").json()
+
+def get_equipment():
+    return requests.get(BASE_URL + "equipment/").json()
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel
+from api_client import get_summary
+
+class Dashboard(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Chemical Equipment Dashboard")
+
+        self.layout = QVBoxLayout()
+        self.label = QLabel("Click to load summary")
+        self.button = QPushButton("Load Summary")
+
+        self.button.clicked.connect(self.load_data)
+
+        self.layout.addWidget(self.label)
+        self.layout.addWidget(self.button)
+        self.setLayout(self.layout)
+
+    def load_data(self):
+        data = get_summary()
+        self.label.setText(str(data))
+
+app = QApplication(sys.argv)
+window = Dashboard()
+window.show()
+sys.exit(app.exec_())
